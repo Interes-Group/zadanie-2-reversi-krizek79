@@ -1,5 +1,7 @@
 package sk.stuba.fei.uim.oop;
 
+import sk.stuba.fei.uim.oop.graphics.GamePanel;
+
 import javax.swing.*;
 
 public class Game {
