@@ -3,7 +3,6 @@ package sk.stuba.fei.uim.oop;
 import lombok.Getter;
 
 import javax.swing.event.ChangeEvent;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 @Getter
@@ -20,6 +19,7 @@ public class GameLogic extends InputAdapter {
         this.menuPanel = new MenuPanel();
         this.gameSize = menuPanel.getGameSizeSlider().getValue();
         this.deckPanel = new DeckPanel(gameSize);
+        deckPanel.initializeDeck(gameSize);
 
         gameFrame.add(menuPanel);
         gameFrame.add(deckPanel);
@@ -32,12 +32,8 @@ public class GameLogic extends InputAdapter {
     }
 
     private void restartGame(Integer gameSize) {
-        System.out.println("Restart...");
-        gameFrame.remove(deckPanel);
-        gameFrame.repaint();
-
-        var newDeckPanel = new DeckPanel(gameSize);
-        gameFrame.add(newDeckPanel);
+        deckPanel.initializeDeck(gameSize);
+        deckPanel.repaint();
     }
 
     @Override
