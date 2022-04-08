@@ -2,7 +2,6 @@ package sk.stuba.fei.uim.oop;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.w3c.dom.Node;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,10 +41,12 @@ public class DeckPanel extends JPanel {
         tiles = new TilePanel[gameSize][gameSize];
         for (int i = 0; i < gameSize; i++) {
             for (int j = 0; j < gameSize; j++) {
-                var tilePanel = new TilePanel(tileSize, i * tileSize, j * tileSize);
-                tiles[i][j] = tilePanel;
+                var tilePanel = new TilePanel(tileSize, j * tileSize, i * tileSize);
+                tiles[j][i] = tilePanel;
                 add(tilePanel);
+                System.out.println("TileX: " + tiles[j][i].getXPos() + " TileY: " + tiles[j][i].getYPos());
             }
         }
+        System.out.println("----------------------------------");
     }
 }

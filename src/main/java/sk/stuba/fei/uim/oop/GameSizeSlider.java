@@ -6,7 +6,7 @@ import java.awt.*;
 public class GameSizeSlider extends JSlider {
 
     public GameSizeSlider() {
-        super(VERTICAL, 6, 12, 6);
+        super(HORIZONTAL, 6, 12, 6);
         setMajorTickSpacing(2);
         setMinorTickSpacing(2);
         setSnapToTicks(true);
@@ -14,5 +14,6 @@ public class GameSizeSlider extends JSlider {
         setPaintLabels(true);
         setFocusable(false);
         setBackground(Color.GRAY);
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 }

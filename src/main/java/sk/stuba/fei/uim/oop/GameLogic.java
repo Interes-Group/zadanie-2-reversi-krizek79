@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import javax.swing.event.ChangeEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 @Getter
 public class GameLogic extends InputAdapter {
@@ -45,6 +46,8 @@ public class GameLogic extends InputAdapter {
         if (e.getKeyCode() == KeyEvent.VK_R) {
             restartGame(6);
             menuPanel.getGameSizeSlider().setValue(6);
+            gameSize = 6;
+            menuPanel.getGameSizeLabel().setText("Size: " + gameSize);
         }
     }
 
@@ -52,6 +55,22 @@ public class GameLogic extends InputAdapter {
     public void stateChanged(ChangeEvent e) {
         super.stateChanged(e);
         gameSize = ((GameSizeSlider) e.getSource()).getValue();
+        menuPanel.getGameSizeLabel().setText("Size: " + gameSize);
         restartGame(gameSize);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        super.mouseEntered(e);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        super.mouseExited(e);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
     }
 }
