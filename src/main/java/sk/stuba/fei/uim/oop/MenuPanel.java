@@ -3,7 +3,6 @@ package sk.stuba.fei.uim.oop;
 import lombok.Getter;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 @Getter

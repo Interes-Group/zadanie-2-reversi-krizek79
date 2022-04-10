@@ -3,6 +3,7 @@ package sk.stuba.fei.uim.oop;
 import lombok.Getter;
 
 import javax.swing.event.ChangeEvent;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -11,7 +12,8 @@ public class GameLogic extends InputAdapter {
 
     private final GameFrame gameFrame;
     private final MenuPanel menuPanel;
-    private final DeckPanel deckPanel;
+    private final Deck deck;
+    private final Render render;
 
     private Integer gameSize;
 
@@ -19,22 +21,22 @@ public class GameLogic extends InputAdapter {
         this.gameFrame = gameFrame;
         this.menuPanel = new MenuPanel();
         this.gameSize = menuPanel.getGameSizeSlider().getValue();
-        this.deckPanel = new DeckPanel(gameSize);
-        deckPanel.initializeDeck(gameSize);
+        this.deck = new Deck(gameSize);
+        this.render = new Render(deck);
 
         gameFrame.add(menuPanel);
-        gameFrame.add(deckPanel);
+        gameFrame.add(render);
 
         menuPanel.getGameSizeSlider().addChangeListener(this);
         menuPanel.addKeyListener(this);
-        deckPanel.addKeyListener(this);
+        gameFrame.addKeyListener(this);
         gameFrame.addMouseListener(this);
         gameFrame.addMouseMotionListener(this);
     }
 
     private void restartGame(Integer gameSize) {
-        deckPanel.initializeDeck(gameSize);
-        deckPanel.repaint();
+        deck.initializeDeck(gameSize);
+        render.repaint();
     }
 
     @Override
@@ -60,17 +62,27 @@ public class GameLogic extends InputAdapter {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        super.mouseEntered(e);
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        super.mouseExited(e);
-    }
-
-    @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
+        int x = e.getX() - 10;
+        int y = e.getY() - 30;
+        if (e.getX() > 200 && e.getX() < 800 && e.getY() > 0 && e.getY() < 630) {
+            var tile = this.getDeck().getTilePanel(x, y);
+            var circle = new Circle(tile, tile.getXPos(), tile.getYPos(), tile.getTileSize(), Color.WHITE);
+            tile.setCircle(circle);
+            render.repaint();
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        super.mouseMoved(e);
+        int x = e.getX() - 10;
+        int y = e.getY() - 30;
+        System.out.println(e.getPoint());
+        if (e.getX() > 200 && e.getX() < 800 && e.getY() > 0 && e.getY() < 630) {
+            var tile = this.getDeck().getTilePanel(x, y);
+
+        }
     }
 }
