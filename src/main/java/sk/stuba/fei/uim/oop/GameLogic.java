@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -28,10 +29,12 @@ public class GameLogic extends InputAdapter {
         gameFrame.add(render);
 
         menuPanel.getGameSizeSlider().addChangeListener(this);
+        menuPanel.getGameResetButton().addActionListener(this);
         menuPanel.addKeyListener(this);
-        gameFrame.addKeyListener(this);
-        gameFrame.addMouseListener(this);
-        gameFrame.addMouseMotionListener(this);
+
+        render.addKeyListener(this);
+        render.addMouseListener(this);
+        render.addMouseMotionListener(this);
     }
 
     private void restartGame(Integer gameSize) {
@@ -49,7 +52,7 @@ public class GameLogic extends InputAdapter {
             restartGame(6);
             menuPanel.getGameSizeSlider().setValue(6);
             gameSize = 6;
-            menuPanel.getGameSizeLabel().setText("Size: " + gameSize);
+            menuPanel.getGameSizeLabel().setText("Size: " + gameSize + "x" + gameSize);
         }
     }
 
@@ -57,16 +60,16 @@ public class GameLogic extends InputAdapter {
     public void stateChanged(ChangeEvent e) {
         super.stateChanged(e);
         gameSize = ((GameSizeSlider) e.getSource()).getValue();
-        menuPanel.getGameSizeLabel().setText("Size: " + gameSize);
+        menuPanel.getGameSizeLabel().setText("Size: " + gameSize + "x" + gameSize);
         restartGame(gameSize);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        int x = e.getX() - 10;
-        int y = e.getY() - 30;
-        if (e.getX() > 200 && e.getX() < 800 && e.getY() > 0 && e.getY() < 630) {
+        int x = e.getX();
+        int y = e.getY();
+        if (e.getX() > 0 && e.getX() < 600 && e.getY() > 0 && e.getY() < 600) {
             var tile = this.getDeck().getTilePanel(x, y);
             var circle = new Circle(tile, tile.getXPos(), tile.getYPos(), tile.getTileSize(), Color.WHITE);
             tile.setCircle(circle);
@@ -77,12 +80,21 @@ public class GameLogic extends InputAdapter {
     @Override
     public void mouseMoved(MouseEvent e) {
         super.mouseMoved(e);
-        int x = e.getX() - 10;
-        int y = e.getY() - 30;
+        int x = e.getX();
+        int y = e.getY();
         System.out.println(e.getPoint());
-        if (e.getX() > 200 && e.getX() < 800 && e.getY() > 0 && e.getY() < 630) {
+        if (e.getX() > 0 && e.getX() < 600 && e.getY() > 0 && e.getY() < 600) {
             var tile = this.getDeck().getTilePanel(x, y);
 
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        super.actionPerformed(e);
+        restartGame(6);
+        menuPanel.getGameSizeSlider().setValue(6);
+        gameSize = 6;
+        menuPanel.getGameSizeLabel().setText("Size: " + gameSize + "x" + gameSize);
     }
 }

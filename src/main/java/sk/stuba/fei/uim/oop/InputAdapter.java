@@ -4,7 +4,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.*;
 
-public abstract class InputAdapter implements KeyListener, ChangeListener, MouseListener, MouseMotionListener {
+public abstract class InputAdapter implements KeyListener, ActionListener, ChangeListener, MouseListener, MouseMotionListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -57,6 +57,11 @@ public abstract class InputAdapter implements KeyListener, ChangeListener, Mouse
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
     }
 }

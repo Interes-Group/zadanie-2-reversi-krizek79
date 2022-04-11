@@ -9,27 +9,32 @@ import java.awt.*;
 public class MenuPanel extends JPanel {
 
     private final GameSizeSlider gameSizeSlider;
+    private final GameResetButton gameResetButton;
     private final JLabel gameSizeLabel;
     private final JLabel playerLabel;
 
     public MenuPanel() {
         setPreferredSize(new Dimension(200, 600));
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(4, 1));
         setBackground(Color.GRAY);
         setFocusable(true);
 
         gameSizeSlider = new GameSizeSlider();
 
-        gameSizeLabel = new JLabel("Size: " + gameSizeSlider.getValue());
+        gameResetButton = new GameResetButton();
+
+        gameSizeLabel = new JLabel("Size: " + gameSizeSlider.getValue()
+                + "x" + gameSizeSlider.getValue(), SwingConstants.CENTER);
         gameSizeLabel.setFont(new Font("Verdana", Font.PLAIN, 24));
         gameSizeLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        playerLabel = new JLabel("Player: ");
+        playerLabel = new JLabel("Player: ", SwingConstants.CENTER);
         playerLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
         playerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         add(gameSizeLabel);
         add(gameSizeSlider);
+        add(gameResetButton);
         add(playerLabel);
     }
 

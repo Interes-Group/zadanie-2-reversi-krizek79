@@ -39,7 +39,7 @@ public class Deck {
 
     public Tile getTilePanel(int x, int y) {
         int tileSize = 600 / gameSize;
-        x = (x - 200) / tileSize;
+        x /= tileSize;
         y /= tileSize;
         return tiles[x][y];
     }
