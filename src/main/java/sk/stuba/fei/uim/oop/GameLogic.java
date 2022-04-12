@@ -37,11 +37,6 @@ public class GameLogic extends InputAdapter {
         render.addMouseMotionListener(this);
     }
 
-    private void restartGame(Integer gameSize) {
-        deck.initializeDeck(gameSize);
-        render.repaint();
-    }
-
     @Override
     public void keyPressed(KeyEvent e) {
         super.keyTyped(e);
@@ -69,7 +64,7 @@ public class GameLogic extends InputAdapter {
         var tile = getTile(x, y);
         if (tile != null) {
             if (tile.getCircle() == null) {
-                getDeck().makeMove(tile, Color.WHITE);
+                makeMove(tile, Color.WHITE);
                 render.repaint();
             }
         }
@@ -96,5 +91,20 @@ public class GameLogic extends InputAdapter {
         if (x > 0 && x < 600 && y > 0 && y < 600) {
             return this.getDeck().getTile(x, y);
         } else return null;
+    }
+
+    private void restartGame(Integer gameSize) {
+        deck.initializeDeck(gameSize);
+        render.repaint();
+    }
+
+    public void makeMove(Tile tile, Color playerColor) {
+        var circle = new Circle(tile,
+                tile.getXPos(),
+                tile.getYPos(),
+                tile.getTileSize(),
+                playerColor);
+        tile.setCircle(circle);
+        getDeck().getCircles().add(circle);
     }
 }

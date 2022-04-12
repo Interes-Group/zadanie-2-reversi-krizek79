@@ -1,11 +1,13 @@
 package sk.stuba.fei.uim.oop;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
 
 @Getter
+@AllArgsConstructor
 public class Circle {
 
     private final Tile tile;
@@ -15,14 +17,6 @@ public class Circle {
 
     @Setter
     private Color color;
-
-    public Circle(Tile tile, Integer xPos, Integer yPos, Integer size, Color color) {
-        this.tile = tile;
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.size = size;
-        this.color = color;
-    }
 
     public void draw(Graphics g) {
         g.setColor(color);

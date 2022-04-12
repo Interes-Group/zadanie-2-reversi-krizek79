@@ -16,9 +16,6 @@ public class Tile {
     private Circle circle;
 
     @Setter
-    private boolean highlighted;
-
-    @Setter
     private Color color;
 
     public Tile(Integer tileSize, Integer x, Integer y) {

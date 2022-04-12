@@ -73,16 +73,6 @@ public class Deck {
         initTile4.setCircle(initCircle4);
     }
 
-    public void makeMove(Tile tile, Color playerColor) {
-        var circle = new Circle(tile,
-                tile.getXPos(),
-                tile.getYPos(),
-                tile.getTileSize(),
-                playerColor);
-        tile.setCircle(circle);
-        circles.add(circle);
-    }
-
     public Tile getTile(int x, int y) {
         int tileSize = 600 / gameSize;
         x /= tileSize;
