@@ -49,10 +49,7 @@ public class GameLogic extends InputAdapter {
             System.exit(0);
         }
         if (e.getKeyCode() == KeyEvent.VK_R) {
-            restartGame(6);
-            menuPanel.getGameSizeSlider().setValue(6);
-            gameSize = 6;
-            menuPanel.getGameSizeLabel().setText("Size: " + gameSize + "x" + gameSize);
+            restartGame(gameSize);
         }
     }
 
@@ -69,11 +66,12 @@ public class GameLogic extends InputAdapter {
         super.mouseClicked(e);
         int x = e.getX();
         int y = e.getY();
-        if (e.getX() > 0 && e.getX() < 600 && e.getY() > 0 && e.getY() < 600) {
-            var tile = this.getDeck().getTilePanel(x, y);
-            var circle = new Circle(tile, tile.getXPos(), tile.getYPos(), tile.getTileSize(), Color.WHITE);
-            tile.setCircle(circle);
-            render.repaint();
+        var tile = getTile(x, y);
+        if (tile != null) {
+            if (tile.getCircle() == null) {
+                getDeck().makeMove(tile, Color.WHITE);
+                render.repaint();
+            }
         }
     }
 
@@ -82,19 +80,21 @@ public class GameLogic extends InputAdapter {
         super.mouseMoved(e);
         int x = e.getX();
         int y = e.getY();
-        System.out.println(e.getPoint());
-        if (e.getX() > 0 && e.getX() < 600 && e.getY() > 0 && e.getY() < 600) {
-            var tile = this.getDeck().getTilePanel(x, y);
-
+        var tile = getTile(x, y);
+        if (tile != null) {
+            System.out.println(new Point(tile.getXPos(), tile.getYPos()));
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
-        restartGame(6);
-        menuPanel.getGameSizeSlider().setValue(6);
-        gameSize = 6;
-        menuPanel.getGameSizeLabel().setText("Size: " + gameSize + "x" + gameSize);
+        restartGame(gameSize);
+    }
+
+    private Tile getTile(int x, int y) {
+        if (x > 0 && x < 600 && y > 0 && y < 600) {
+            return this.getDeck().getTile(x, y);
+        } else return null;
     }
 }
