@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter
@@ -13,12 +11,10 @@ public class Deck {
 
     private Integer gameSize;
     private Tile[][] tiles;
-    private List<Circle> circles;
 
     public Deck(Integer gameSize) {
         this.gameSize = gameSize;
         initializeDeck(gameSize);
-        circles = new ArrayList<>(gameSize * gameSize);
     }
 
     public void draw(Graphics g) {
@@ -40,43 +36,51 @@ public class Deck {
             }
         }
 
+        for (int i = 0; i < gameSize; i++) {
+            for (int j = 0; j < gameSize; j++) {
+                if (i != 0) {
+                    tiles[i][j].addNeighbour(tiles[i-1][j], Direction.UP);
+                    if (j != 0) {
+                        tiles[i][j].addNeighbour(tiles[i-1][j-1], Direction.UP_LEFT);
+                    }
+                    if (j != gameSize - 1) {
+                        tiles[i][j].addNeighbour(tiles[i-1][j+1], Direction.UP_RIGHT);
+                    }
+                }
+                if (i != gameSize - 1) {
+                    tiles[i][j].addNeighbour(tiles[i+1][j], Direction.DOWN);
+                    if (j != 0) {
+                        tiles[i][j].addNeighbour(tiles[i+1][j-1], Direction.DOWN_LEFT);
+                    }
+                    if (j != gameSize - 1) {
+                        tiles[i][j].addNeighbour(tiles[i+1][j+1], Direction.DOWN_RIGHT);
+                    }
+                }
+                if (j != 0) {
+                    tiles[i][j].addNeighbour(tiles[i][j-1], Direction.LEFT);
+                }
+                if (j != gameSize - 1) {
+                    tiles[i][j].addNeighbour(tiles[i][j+1], Direction.RIGHT);
+                }
+            }
+        }
+
         var initTile1 = tiles[gameSize / 2 - 1][gameSize / 2 - 1];
-        var initCircle1 = new Circle(initTile1,
-                initTile1.getXPos(),
-                initTile1.getYPos(),
-                initTile1.getTileSize(),
-                Color.BLACK);
-        initTile1.setCircle(initCircle1);
-
+        initTile1.setStone(new Stone(Color.BLACK));
         var initTile2 = tiles[gameSize / 2 - 1][gameSize / 2];
-        var initCircle2 = new Circle(initTile2,
-                initTile2.getXPos(),
-                initTile2.getYPos(),
-                initTile2.getTileSize(),
-                Color.WHITE);
-        initTile2.setCircle(initCircle2);
-
+        initTile2.setStone(new Stone(Color.WHITE));
         var initTile3 = tiles[gameSize / 2][gameSize / 2 - 1];
-        var initCircle3 = new Circle(initTile3,
-                initTile3.getXPos(),
-                initTile3.getYPos(),
-                initTile3.getTileSize(),
-                Color.WHITE);
-        initTile3.setCircle(initCircle3);
-
+        initTile3.setStone(new Stone(Color.WHITE));
         var initTile4 = tiles[gameSize / 2][gameSize / 2];
-        var initCircle4 = new Circle(initTile4,
-                initTile4.getXPos(),
-                initTile4.getYPos(),
-                initTile4.getTileSize(),
-                Color.BLACK);
-        initTile4.setCircle(initCircle4);
+        initTile4.setStone(new Stone(Color.BLACK));
     }
 
     public Tile getTile(int x, int y) {
-        int tileSize = 600 / gameSize;
-        x /= tileSize;
-        y /= tileSize;
-        return tiles[x][y];
+        if (x > 0 && x < 600 && y > 0 && y < 600) {
+            int tileSize = 600 / gameSize;
+            x /= tileSize;
+            y /= tileSize;
+            return tiles[x][y];
+        } else return null;
     }
 }

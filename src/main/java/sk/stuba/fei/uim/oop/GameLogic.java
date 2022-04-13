@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 @Getter
 public class GameLogic extends InputAdapter {
@@ -35,6 +36,8 @@ public class GameLogic extends InputAdapter {
         render.addKeyListener(this);
         render.addMouseListener(this);
         render.addMouseMotionListener(this);
+
+        findValidTiles(Color.WHITE);
     }
 
     @Override
@@ -61,11 +64,11 @@ public class GameLogic extends InputAdapter {
         super.mouseClicked(e);
         int x = e.getX();
         int y = e.getY();
-        var tile = getTile(x, y);
+        var tile = deck.getTile(x, y);
         if (tile != null) {
-            if (tile.getCircle() == null) {
+            if (isMoveValid(tile, Color.WHITE)) {
                 makeMove(tile, Color.WHITE);
-                render.repaint();
+                menuPanel.getPlayerLabel().setText("Player: Black");
             }
         }
     }
@@ -75,7 +78,7 @@ public class GameLogic extends InputAdapter {
         super.mouseMoved(e);
         int x = e.getX();
         int y = e.getY();
-        var tile = getTile(x, y);
+        var tile = deck.getTile(x, y);
         if (tile != null) {
             System.out.println(new Point(tile.getXPos(), tile.getYPos()));
         }
@@ -87,24 +90,31 @@ public class GameLogic extends InputAdapter {
         restartGame(gameSize);
     }
 
-    private Tile getTile(int x, int y) {
-        if (x > 0 && x < 600 && y > 0 && y < 600) {
-            return this.getDeck().getTile(x, y);
-        } else return null;
-    }
-
     private void restartGame(Integer gameSize) {
         deck.initializeDeck(gameSize);
+        menuPanel.getPlayerLabel().setText("Player: White");
+        findValidTiles(Color.WHITE);
+    }
+
+    private void makeMove(Tile tile, Color playerColor) {
+        tile.setStone(new Stone(playerColor));
         render.repaint();
     }
 
-    public void makeMove(Tile tile, Color playerColor) {
-        var circle = new Circle(tile,
-                tile.getXPos(),
-                tile.getYPos(),
-                tile.getTileSize(),
-                playerColor);
-        tile.setCircle(circle);
-        getDeck().getCircles().add(circle);
+    private Boolean isMoveValid(Tile tile, Color playerColor) {
+        if (tile.getStone() == null && tile.neighbourHasEnemyStone(playerColor)) {
+            return true;
+        } else return false;
+    }
+
+    public void findValidTiles(Color stoneColor) {
+        for (int i = 0; i < gameSize; i++) {
+            for (int j = 0; j < gameSize; j++) {
+                if (deck.getTiles()[i][j].neighbourHasEnemyStone(stoneColor)) {
+                    deck.getTiles()[i][j].setHasValidPoint(true);
+                    render.repaint();
+                }
+            }
+        }
     }
 }
