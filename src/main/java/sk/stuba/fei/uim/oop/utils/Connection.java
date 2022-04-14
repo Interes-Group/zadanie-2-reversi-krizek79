@@ -1,7 +1,8 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.utils;
 
 import lombok.Getter;
 import lombok.Setter;
+import sk.stuba.fei.uim.oop.deck.Tile;
 
 @Getter
 @Setter

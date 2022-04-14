@@ -1,13 +1,14 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.utils;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.*;
 
-public abstract class InputAdapter implements KeyListener, ActionListener, ChangeListener, MouseListener, MouseMotionListener {
+public class InputAdapter implements KeyListener, ActionListener, ChangeListener, MouseListener, MouseMotionListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
     @Override

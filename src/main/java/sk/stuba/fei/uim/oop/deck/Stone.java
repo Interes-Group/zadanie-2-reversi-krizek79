@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.deck;
 
 import lombok.Getter;
 import lombok.Setter;

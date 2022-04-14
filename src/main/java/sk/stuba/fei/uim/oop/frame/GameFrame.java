@@ -1,4 +1,6 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.frame;
+
+import sk.stuba.fei.uim.oop.logic.GameLogic;
 
 import javax.swing.*;
 import java.awt.*;
