@@ -90,14 +90,21 @@ public class Deck extends JPanel {
             }
         }
 
-        var initTile1 = tiles[gameSize / 2 - 1][gameSize / 2 - 1];
-        initTile1.setStone(new Stone(Color.BLACK));
-        var initTile2 = tiles[gameSize / 2 - 1][gameSize / 2];
-        initTile2.setStone(new Stone(Color.WHITE));
-        var initTile3 = tiles[gameSize / 2][gameSize / 2 - 1];
-        initTile3.setStone(new Stone(Color.WHITE));
-        var initTile4 = tiles[gameSize / 2][gameSize / 2];
-        initTile4.setStone(new Stone(Color.BLACK));
+        var startTile1 = tiles[gameSize / 2 - 1][gameSize / 2 - 1];
+        startTile1.setStone(new Stone(Color.BLACK));
+        gameLogic.getStones().add(startTile1.getStone());
+
+        var startTile2 = tiles[gameSize / 2 - 1][gameSize / 2];
+        startTile2.setStone(new Stone(Color.WHITE));
+        gameLogic.getStones().add(startTile2.getStone());
+
+        var startTile3 = tiles[gameSize / 2][gameSize / 2 - 1];
+        startTile3.setStone(new Stone(Color.WHITE));
+        gameLogic.getStones().add(startTile3.getStone());
+
+        var startTile4 = tiles[gameSize / 2][gameSize / 2];
+        startTile4.setStone(new Stone(Color.BLACK));
+        gameLogic.getStones().add(startTile4.getStone());
 
         validate();
     }

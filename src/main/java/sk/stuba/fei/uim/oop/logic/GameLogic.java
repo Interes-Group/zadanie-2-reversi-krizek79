@@ -31,11 +31,11 @@ public class GameLogic extends InputAdapter {
     private Integer gameSize;
 
     public GameLogic(GameFrame gameFrame) {
+        this.stones = new ArrayList<>();
         this.menuPanel = new MenuPanel();
         this.gameSize = menuPanel.getGameSizeSlider().getValue();
         this.deck = new Deck(gameSize, this);
         this.bot = new Bot(this);
-        this.stones = new ArrayList<>();
 
         gameFrame.add(menuPanel);
         gameFrame.add(deck);
@@ -73,19 +73,20 @@ public class GameLogic extends InputAdapter {
     }
 
     public void endGame() {
+        System.out.println(stones.size());
         menuPanel.getPlayerLabel().setForeground(new Color(0, 80, 0));
         int white = 0;
         int black = 0;
-        for (var stone: getStones()) {
+        for (var stone: stones) {
             if (stone.getColor().equals(Color.BLACK)) black++;
             if (stone.getColor().equals(Color.WHITE)) white++;
         }
 
         if (black > white) {
-            menuPanel.getPlayerLabel().setText("Black");
+            menuPanel.getPlayerLabel().setText("Black (" + black + "-" +  white + ")");
         }
         if (black < white) {
-            menuPanel.getPlayerLabel().setText("White");
+            menuPanel.getPlayerLabel().setText("White (" + black + "-" +  white + ")");
         }
         if (black == white) {
             menuPanel.getPlayerLabel().setForeground(Color.ORANGE);
