@@ -7,12 +7,17 @@ import sk.stuba.fei.uim.oop.utils.Direction;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 @Setter
 @Getter
 public class Deck extends JPanel {
 
     private final GameLogic gameLogic;
+
+    private ArrayList<Tile> validTiles;
+    private Random random;
     private Integer gameSize;
     private Tile[][] tiles;
     private GridLayout gridLayout;
@@ -23,6 +28,8 @@ public class Deck extends JPanel {
         setPreferredSize(new Dimension(600, 600));
         gridLayout = new GridLayout();
         setLayout(gridLayout);
+        random = new Random();
+        validTiles = new ArrayList<>();
 
         initializeDeck(gameSize);
     }
@@ -96,31 +103,33 @@ public class Deck extends JPanel {
         validate();
     }
 
-    public void findValidTiles(Color playerColor) {
+    public void setAllTilesUnvalidated() {
         for (int i = 0; i < gameSize; i++) {
             for (int j = 0; j < gameSize; j++) {
                 tiles[i][j].setValidated(false);
             }
         }
+        validTiles.clear();
+    }
 
+    public void findValidTiles(Color playerColor) {
+        setAllTilesUnvalidated();
+        System.out.println(playerColor.toString() + " has moves:");
         for (int i = 0; i < gameSize; i++) {
             for (int j = 0; j < gameSize; j++) {
                 if (tiles[i][j].neighbourHasEnemyStone(playerColor)
                         && tiles[i][j].getStone() == null
                         && tiles[i][j].hasFriendAcross(playerColor)) {
                     tiles[i][j].setValidated(true);
+                    validTiles.add(tiles[i][j]);
+                    System.out.println(new Point(tiles[i][j].getXPos(), tiles[i][j].getYPos()));
                     repaint();
                 }
             }
         }
     }
 
-    public Tile getTile(int x, int y) {
-        if (x > 0 && x < 600 && y > 0 && y < 600) {
-            int tileSize = 600 / gameSize;
-            x /= tileSize;
-            y /= tileSize;
-            return tiles[x][y];
-        } else return null;
+    public Tile getRandomValidTile() {
+        return validTiles.get(random.nextInt(validTiles.size()));
     }
 }

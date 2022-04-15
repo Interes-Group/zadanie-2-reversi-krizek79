@@ -70,14 +70,24 @@ public class Tile extends JPanel implements MouseListener {
         return false;
     }
 
-//    public Boolean hasFriendAcross(Color playerColor) {
-//        for (var neighbour: getAllNeighbours()) {
-//            for (var dir: Direction.values()) {
-//
-//            }
-//        }
-//        return false;
-//    }
+    public Boolean hasFriendAcross(Color playerColor) {
+        for (var dir: Direction.values()) {
+            var neighbour = getNeighbourByDirection(dir);
+            if (neighbour != null
+                    && neighbour.getStone() != null
+                    && neighbour.getStone().getColor() != playerColor) {
+                neighbour = neighbour.getNeighbourByDirection(dir);
+                while (neighbour != null && neighbour.getStone() != null) {
+                    if (neighbour.getStone().getColor().equals(playerColor)) {
+                        return true;
+                    } else {
+                        neighbour = neighbour.getNeighbourByDirection(dir);
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public void draw(Graphics g) {
         if (highlighted) {
@@ -117,6 +127,7 @@ public class Tile extends JPanel implements MouseListener {
         if (gameLogic.isMoveValid(this, Color.WHITE)) {
             gameLogic.makeMove(this, Color.WHITE);
             gameLogic.getMenuPanel().getPlayerLabel().setText("Player: Black");
+            gameLogic.getBot().makeRandomMove();
         }
     }
 

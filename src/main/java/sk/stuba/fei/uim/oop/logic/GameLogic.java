@@ -1,6 +1,7 @@
 package sk.stuba.fei.uim.oop.logic;
 
 import lombok.Getter;
+import sk.stuba.fei.uim.oop.bot.Bot;
 import sk.stuba.fei.uim.oop.frame.GameFrame;
 import sk.stuba.fei.uim.oop.deck.Deck;
 import sk.stuba.fei.uim.oop.deck.Stone;
@@ -20,6 +21,7 @@ public class GameLogic extends InputAdapter {
     private final GameFrame gameFrame;
     private final MenuPanel menuPanel;
     private final Deck deck;
+    private final Bot bot;
 
     private Integer gameSize;
 
@@ -28,6 +30,7 @@ public class GameLogic extends InputAdapter {
         this.menuPanel = new MenuPanel();
         this.gameSize = menuPanel.getGameSizeSlider().getValue();
         this.deck = new Deck(gameSize, this);
+        this.bot = new Bot(this);
 
         gameFrame.add(menuPanel);
         gameFrame.add(deck);
@@ -75,7 +78,6 @@ public class GameLogic extends InputAdapter {
         tile.setStone(new Stone(playerColor));
         tile.setHighlighted(false);
         tile.setValidated(false);
-        deck.findValidTiles(playerColor);
         deck.repaint();
     }
 
