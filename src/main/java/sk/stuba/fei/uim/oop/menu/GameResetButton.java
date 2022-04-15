@@ -9,7 +9,7 @@ public class GameResetButton extends JButton {
         setText("RESET");
         setFont(new Font("Verdana", Font.PLAIN, 24));
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(new Color(80, 130, 160));
         setFocusable(false);
     }
 }

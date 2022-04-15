@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop.utils;
+package sk.stuba.fei.uim.oop.deck;
 
 public enum Direction {
     UP,

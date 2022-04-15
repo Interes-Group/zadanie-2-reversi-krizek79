@@ -8,6 +8,7 @@ import java.awt.*;
 @Getter
 public class MenuPanel extends JPanel {
 
+
     private final GameSizeSlider gameSizeSlider;
     private final GameResetButton gameResetButton;
     private final JLabel gameSizeLabel;
@@ -28,7 +29,8 @@ public class MenuPanel extends JPanel {
         gameSizeLabel.setFont(new Font("Verdana", Font.PLAIN, 24));
         gameSizeLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        playerLabel = new JLabel("Player: White", SwingConstants.CENTER);
+        playerLabel = new JLabel("White", SwingConstants.CENTER);
+        playerLabel.setForeground(Color.WHITE);
         playerLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
         playerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 

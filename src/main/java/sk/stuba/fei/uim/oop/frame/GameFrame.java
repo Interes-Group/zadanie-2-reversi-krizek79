@@ -11,9 +11,7 @@ public class GameFrame extends JFrame {
         super();
         setTitle("Reversi");
         setResizable(false);
-
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        setBackground(Color.MAGENTA);
 
         new GameLogic(this);
 

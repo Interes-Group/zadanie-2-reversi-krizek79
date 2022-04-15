@@ -3,62 +3,49 @@ package sk.stuba.fei.uim.oop.deck;
 import lombok.Getter;
 import lombok.Setter;
 import sk.stuba.fei.uim.oop.logic.GameLogic;
-import sk.stuba.fei.uim.oop.utils.Connection;
-import sk.stuba.fei.uim.oop.utils.Direction;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
+public class Tile extends JPanel {
 
-@Getter
-@Setter
-public class Tile extends JPanel implements MouseListener {
-
-    private final GameLogic gameLogic;
     private final Integer tileSize;
     private final Integer xPos;
     private final Integer yPos;
-    private final Deck deck;
+    private final Map<Direction, Tile> neighbours;
 
+    @Getter
+    @Setter
     private Boolean validated;
+    @Setter
     private Boolean highlighted;
-    private Map<Direction, Connection> neighbours;
+    @Getter
+    @Setter
     private Stone stone;
-    private Color color;
 
-    public Tile(Deck deck, GameLogic gameLogic, Integer tileSize, Integer x, Integer y) {
-        this.deck = deck;
-        this.gameLogic = gameLogic;
+    public Tile(GameLogic gameLogic, Integer tileSize, Integer x, Integer y) {
         this.tileSize = tileSize;
         this.xPos = x;
         this.yPos = y;
         this.validated = false;
         this.highlighted = false;
         this.neighbours = new HashMap<>();
-        this.color = Color.PINK;
         setSize(new Dimension(tileSize, tileSize));
         setFocusable(true);
-        addMouseListener(this);
+        addMouseListener(gameLogic);
     }
 
     public void addNeighbour(Tile tile, Direction direction) {
-        neighbours.put(direction, new Connection(tile));
+        neighbours.put(direction, tile);
     }
 
     public Tile getNeighbourByDirection(Direction direction) {
-        Connection c = neighbours.get(direction);
-        if (c != null) {
-            return c.getTile();
-        } else return null;
+        return neighbours.get(direction);
     }
 
     public List<Tile> getAllNeighbours() {
-        List<Tile> neighbourList = new ArrayList<>();
-        neighbours.values().forEach(connection -> neighbourList.add(connection.getTile()));
-        return neighbourList;
+        return new ArrayList<>(neighbours.values());
     }
 
     public Boolean neighbourHasEnemyStone(Color stoneColor) {
@@ -93,7 +80,7 @@ public class Tile extends JPanel implements MouseListener {
         if (highlighted) {
             g.setColor(Color.GREEN);
         } else {
-            g.setColor(Color.PINK);
+            g.setColor(Color.LIGHT_GRAY);
         }
 
         g.fillRect(xPos, yPos, tileSize, tileSize);
@@ -121,35 +108,4 @@ public class Tile extends JPanel implements MouseListener {
         g.fillOval(xPos + tileSize / 3, yPos + tileSize / 3,
                 tileSize / 3, tileSize / 3);
     }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if (gameLogic.isMoveValid(this, Color.WHITE)) {
-            gameLogic.makeMove(this, Color.WHITE);
-            gameLogic.getMenuPanel().getPlayerLabel().setText("Player: Black");
-            gameLogic.getBot().makeRandomMove();
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        if (validated) {
-            highlighted = true;
-            deck.repaint();
-        }
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        if (validated) {
-            highlighted = false;
-            deck.repaint();
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {}
-
-    @Override
-    public void mouseReleased(MouseEvent e) {}
 }

@@ -5,9 +5,9 @@ import lombok.Setter;
 
 import java.awt.*;
 
-@Getter
-@Setter
 public class Stone {
+    @Getter
+    @Setter
     private Color color;
 
     public Stone(Color color) {

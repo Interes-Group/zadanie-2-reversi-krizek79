@@ -3,24 +3,22 @@ package sk.stuba.fei.uim.oop.deck;
 import lombok.Getter;
 import lombok.Setter;
 import sk.stuba.fei.uim.oop.logic.GameLogic;
-import sk.stuba.fei.uim.oop.utils.Direction;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-@Setter
-@Getter
 public class Deck extends JPanel {
 
     private final GameLogic gameLogic;
-
-    private ArrayList<Tile> validTiles;
-    private Random random;
+    @Getter
+    private final ArrayList<Tile> validTiles;
+    private final Random random;
+    private final GridLayout gridLayout;
+    @Setter
     private Integer gameSize;
     private Tile[][] tiles;
-    private GridLayout gridLayout;
 
     public Deck(Integer gameSize, GameLogic gameLogic) {
         this.gameSize = gameSize;
@@ -32,6 +30,7 @@ public class Deck extends JPanel {
         validTiles = new ArrayList<>();
 
         initializeDeck(gameSize);
+        findValidTiles(Color.WHITE);
     }
 
     @Override
@@ -56,7 +55,7 @@ public class Deck extends JPanel {
 
         for (int i = 0; i < gameSize; i++) {
             for (int j = 0; j < gameSize; j++) {
-                var tile = new Tile(this, gameLogic, tileSize, j * tileSize, i * tileSize);
+                var tile = new Tile(gameLogic, tileSize, j * tileSize, i * tileSize);
                 add(tile);
                 tiles[j][i] = tile;
             }
@@ -114,7 +113,6 @@ public class Deck extends JPanel {
 
     public void findValidTiles(Color playerColor) {
         setAllTilesUnvalidated();
-        System.out.println(playerColor.toString() + " has moves:");
         for (int i = 0; i < gameSize; i++) {
             for (int j = 0; j < gameSize; j++) {
                 if (tiles[i][j].neighbourHasEnemyStone(playerColor)
@@ -122,14 +120,39 @@ public class Deck extends JPanel {
                         && tiles[i][j].hasFriendAcross(playerColor)) {
                     tiles[i][j].setValidated(true);
                     validTiles.add(tiles[i][j]);
-                    System.out.println(new Point(tiles[i][j].getXPos(), tiles[i][j].getYPos()));
                     repaint();
                 }
             }
         }
     }
 
+    public void flipStones(Tile tile, Color playerColor) {
+        ArrayList<Tile> flippables = new ArrayList<>();
+        for (var dir: Direction.values()) {
+            ArrayList<Tile> tempTiles = new ArrayList<>();
+            var neighbour = tile.getNeighbourByDirection(dir);
+            if (neighbour != null
+                    && neighbour.getStone() != null
+                    && neighbour.getStone().getColor() != playerColor) {
+                tempTiles.add(neighbour);
+                neighbour = neighbour.getNeighbourByDirection(dir);
+                while (neighbour != null && neighbour.getStone() != null) {
+                    if (neighbour.getStone().getColor().equals(playerColor)) {
+                        flippables.addAll(tempTiles);
+                        flippables.forEach(s -> s.getStone().setColor(playerColor));
+                        break;
+                    } else {
+                        tempTiles.add(neighbour);
+                        neighbour = neighbour.getNeighbourByDirection(dir);
+                    }
+                }
+            }
+        }
+    }
+
     public Tile getRandomValidTile() {
-        return validTiles.get(random.nextInt(validTiles.size()));
+        if (!validTiles.isEmpty()) {
+            return validTiles.get(random.nextInt(validTiles.size()));
+        } else return null;
     }
 }
