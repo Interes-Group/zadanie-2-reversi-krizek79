@@ -48,8 +48,8 @@ public class GameLogic extends InputAdapter {
     }
 
     private void restartGame(Integer gameSize) {
-        deck.initializeDeck(gameSize);
         stones.clear();
+        deck.initializeDeck(gameSize);
         menuPanel.getPlayerLabel().setForeground(Color.WHITE);
         menuPanel.getPlayerLabel().setText("White");
         deck.findValidTiles(Color.WHITE);
@@ -72,8 +72,18 @@ public class GameLogic extends InputAdapter {
         deck.repaint();
     }
 
+    public Boolean noMovesAvailableForBothPlayers() {
+        deck.findValidTiles(Color.WHITE);
+        var validTilesForWhite = deck.getValidTiles();
+        deck.findValidTiles(Color.BLACK);
+        var validTilesForBlack = deck.getValidTiles();
+        if (validTilesForBlack.isEmpty() && validTilesForWhite.isEmpty()) {
+            endGame();
+            return true;
+        } else return false;
+    }
+
     public void endGame() {
-        System.out.println(stones.size());
         menuPanel.getPlayerLabel().setForeground(new Color(0, 80, 0));
         int white = 0;
         int black = 0;
@@ -90,7 +100,7 @@ public class GameLogic extends InputAdapter {
         }
         if (black == white) {
             menuPanel.getPlayerLabel().setForeground(Color.ORANGE);
-            menuPanel.getPlayerLabel().setText("Tie");
+            menuPanel.getPlayerLabel().setText("Tie (" + black + "-" +  white + ")");
         }
     }
 
@@ -102,14 +112,8 @@ public class GameLogic extends InputAdapter {
         var tile = (Tile) e.getComponent().getComponentAt(x, y);
         if (isMoveValid(tile, Color.WHITE)) {
             makeMove(tile, Color.WHITE);
-            getMenuPanel().getPlayerLabel().setForeground(Color.BLACK);
-            getMenuPanel().getPlayerLabel().setText("Black");
-            deck.findValidTiles(Color.BLACK);
-            if (!deck.getValidTiles().isEmpty()) {
-                bot.makeRandomMove();
-            }
+            bot.makeRandomMove();
         }
-        System.out.println(stones.size());
     }
 
     @Override

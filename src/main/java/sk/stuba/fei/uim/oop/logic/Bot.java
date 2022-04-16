@@ -14,22 +14,23 @@ public class Bot {
     }
 
     public void makeRandomMove() {
-        gameLogic.getDeck().findValidTiles(botColor);
-        if (!gameLogic.getDeck().getValidTiles().isEmpty()) {
-            Tile tile = gameLogic.getDeck().getRandomValidTile();
-            if (gameLogic.isMoveValid(tile, botColor)) {
+        if (!gameLogic.noMovesAvailableForBothPlayers()) {
+            gameLogic.getDeck().findValidTiles(botColor);
+            if (!gameLogic.getDeck().getValidTiles().isEmpty()) {
+                Tile tile = gameLogic.getDeck().getRandomValidTile();
+
+                gameLogic.getMenuPanel().getPlayerLabel().setForeground(Color.BLACK);
+                gameLogic.getMenuPanel().getPlayerLabel().setText("Black");
                 gameLogic.makeMove(tile, botColor);
+
+                gameLogic.getDeck().findValidTiles(Color.WHITE);
                 gameLogic.getMenuPanel().getPlayerLabel().setForeground(Color.WHITE);
                 gameLogic.getMenuPanel().getPlayerLabel().setText("White");
 
-                gameLogic.getDeck().findValidTiles(Color.WHITE);
                 if (gameLogic.getDeck().getValidTiles().isEmpty()) {
-                    System.out.println("a");
                     makeRandomMove();
                 }
             }
-        } else {
-            gameLogic.endGame();
         }
     }
 }
