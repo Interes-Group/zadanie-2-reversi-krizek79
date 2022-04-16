@@ -31,7 +31,7 @@ public class MenuPanel extends JPanel {
 
         playerLabel = new JLabel("White", SwingConstants.CENTER);
         playerLabel.setForeground(Color.WHITE);
-        playerLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+        playerLabel.setFont(new Font("Verdana", Font.PLAIN, 22));
         playerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         add(gameSizeLabel);

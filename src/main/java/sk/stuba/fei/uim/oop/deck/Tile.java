@@ -105,7 +105,7 @@ public class Tile extends JPanel {
 
     private void drawValidPoint(Graphics g) {
         g.setColor(Color.GRAY);
-        g.fillOval(xPos + tileSize / 3, yPos + tileSize / 3,
+        g.fillOval(xPos + tileSize / 3 + 1, yPos + tileSize / 3 + 1,
                 tileSize / 3, tileSize / 3);
     }
 }

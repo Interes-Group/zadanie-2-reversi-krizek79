@@ -126,8 +126,8 @@ public class Deck extends JPanel {
                         && tiles[i][j].getStone() == null
                         && tiles[i][j].hasFriendAcross(playerColor)) {
                     tiles[i][j].setValidated(true);
-                    validTiles.add(tiles[i][j]);
                     repaint();
+                    validTiles.add(tiles[i][j]);
                 }
             }
         }

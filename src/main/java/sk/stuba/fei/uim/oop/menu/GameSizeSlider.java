@@ -15,5 +15,6 @@ public class GameSizeSlider extends JSlider {
         setFocusable(false);
         setBackground(Color.GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        setFont(new Font("Verdana", Font.PLAIN, 10));
     }
 }
