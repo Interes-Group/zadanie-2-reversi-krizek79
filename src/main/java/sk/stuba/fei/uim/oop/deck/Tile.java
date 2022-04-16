@@ -44,7 +44,7 @@ public class Tile extends JPanel {
         return neighbours.get(direction);
     }
 
-    public List<Tile> getAllNeighbours() {
+    private List<Tile> getAllNeighbours() {
         return new ArrayList<>(neighbours.values());
     }
 

@@ -55,21 +55,21 @@ public class GameLogic extends InputAdapter {
         deck.findValidTiles(Color.WHITE);
     }
 
-    public void makeMove(Tile tile, Color playerColor) {
-        var stone = new Stone(playerColor);
-        stones.add(stone);
-        tile.setStone(stone);
-        tile.setHighlighted(false);
-        tile.setValidated(false);
-        deck.flipStones(tile, playerColor);
-        deck.repaint();
-    }
-
     public Boolean isMoveValid(Tile tile, Color playerColor) {
         return tile != null
                 && tile.getStone() == null
                 && tile.neighbourHasEnemyStone(playerColor)
                 && tile.hasFriendAcross(playerColor);
+    }
+
+    public void makeMove(Tile tile, Color playerColor) {
+        var stone = new Stone(playerColor);
+        tile.setStone(stone);
+        tile.setHighlighted(false);
+        tile.setValidated(false);
+        stones.add(stone);
+        deck.flipStones(tile, playerColor);
+        deck.repaint();
     }
 
     public void endGame() {
@@ -95,17 +95,6 @@ public class GameLogic extends InputAdapter {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        super.keyTyped(e);
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            System.exit(0);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_R) {
-            restartGame(gameSize);
-        }
-    }
-
-    @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
         int x = e.getX();
@@ -120,6 +109,7 @@ public class GameLogic extends InputAdapter {
                 bot.makeRandomMove();
             }
         }
+        System.out.println(stones.size());
     }
 
     @Override
@@ -140,6 +130,17 @@ public class GameLogic extends InputAdapter {
         if (currentTile.getValidated()) {
             currentTile.setHighlighted(false);
             deck.repaint();
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        super.keyTyped(e);
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            restartGame(gameSize);
         }
     }
 

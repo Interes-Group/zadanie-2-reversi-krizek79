@@ -24,6 +24,7 @@ public class Bot {
 
                 gameLogic.getDeck().findValidTiles(Color.WHITE);
                 if (gameLogic.getDeck().getValidTiles().isEmpty()) {
+                    System.out.println("a");
                     makeRandomMove();
                 }
             }

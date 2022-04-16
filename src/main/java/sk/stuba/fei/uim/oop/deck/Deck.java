@@ -109,7 +109,7 @@ public class Deck extends JPanel {
         validate();
     }
 
-    public void setAllTilesUnvalidated() {
+    private void setAllTilesUnvalidated() {
         for (int i = 0; i < gameSize; i++) {
             for (int j = 0; j < gameSize; j++) {
                 tiles[i][j].setValidated(false);
